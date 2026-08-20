@@ -1,0 +1,203 @@
+.fridge-add-app {
+  width: 100%;
+  max-width: 480px;
+  min-height: 100vh;
+  margin: 0 auto;
+
+  background: var(--bg-main);
+  color: var(--green-dark);
+}
+
+
+.fridge-add-page {
+  padding: 40px 20px 60px;
+}
+
+
+/* Header */
+
+.fridge-add-header {
+  margin-bottom: 22px;
+}
+
+
+.fridge-add-header h1 {
+  margin: 0 0 8px;
+
+  font-size: 28px;
+  font-weight: 600;
+
+  color: var(--green-dark);
+}
+
+
+.fridge-add-header p {
+  margin: 0;
+
+  font-size: 14px;
+
+  color: #667a69;
+}
+
+
+/* Methods */
+
+.fridge-add-methods {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 12px;
+
+  margin-bottom: 38px;
+}
+
+.fridge-method {
+  display: flex;
+  flex-direction: column;
+
+  height: 88px;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 9px;
+
+  padding: 0;
+
+  border: 1px solid transparent;
+  border-radius: 11px;
+
+  background: #eaf2e7;
+  color: var(--green-dark);
+
+  font-size: 14px;
+}
+
+.fridge-method img {
+  width: 29px;
+  height: 29px;
+
+  object-fit: contain;
+}
+
+.fridge-method.active {
+  border-color: #bfd4c4;
+
+  box-shadow:
+    inset 0 0 0 1px
+    #bfd4c4;
+}
+
+
+/* Card */
+
+.fridge-add-card {
+  padding: 20px;
+  margin-bottom: 30px;
+
+  border-radius: 15px;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 5px 18px
+    rgba(45, 79, 57, 0.08);
+}
+
+.fridge-add-card h2 {
+  margin: 0 0 24px;
+
+  font-size: 22px;
+  font-weight: 500;
+}
+
+
+/* Fields */
+
+.fridge-add-field {
+  display: block;
+
+  margin-bottom: 20px;
+}
+
+.fridge-add-field:last-child {
+  margin-bottom: 0;
+}
+
+.fridge-add-field > span {
+  display: block;
+
+  margin-bottom: 9px;
+
+  font-size: 15px;
+}
+
+
+.fridge-add-field input {
+  width: 100%;
+  height: 52px;
+
+  box-sizing: border-box;
+
+  padding: 0 16px;
+
+  border: 0;
+  outline: 0;
+
+  border-radius: 9px;
+
+  background: #f4f4f4;
+
+  color: var(--green-dark);
+
+  font-size: 15px;
+}
+
+
+.fridge-add-field input::placeholder {
+  color: #aaaaaa;
+}
+
+
+/* Actions */
+
+.fridge-add-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  gap: 18px;
+}
+
+
+.fridge-add-actions button {
+  height: 52px;
+
+  border-radius: 10px;
+
+  font-size: 17px;
+}
+
+
+.fridge-add-cancel {
+  border: 1px solid
+    var(--green-primary);
+
+  background: transparent;
+
+  color: var(--green-primary);
+}
+
+
+.fridge-add-confirm {
+  border: 0;
+
+  background:
+    var(--green-primary);
+
+  color: #ffffff;
+}
+
+
+.fridge-add-confirm:disabled {
+  opacity: 0.4;
+}

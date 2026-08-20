@@ -1,0 +1,500 @@
+.fridge-browse-app {
+  width: 100%;
+  max-width: 480px;
+  min-height: 100vh;
+  margin: 0 auto;
+
+  background: var(--bg-main);
+  color: var(--green-dark);
+}
+
+
+.fridge-browse-page {
+  padding: 40px 20px 120px;
+}
+
+
+/* =========================
+   Header
+========================= */
+
+.fridge-browse-header {
+  margin-bottom: 22px;
+}
+
+
+.fridge-browse-header h1 {
+  margin: 0 0 8px;
+
+  font-size: 28px;
+  font-weight: 600;
+
+  color: var(--green-dark);
+}
+
+
+.fridge-browse-header p {
+  margin: 0;
+
+  font-size: 14px;
+
+  color: #667a69;
+}
+
+/* =========================
+   Methods
+========================= */
+
+.fridge-browse-methods {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 12px;
+
+  margin-bottom: 38px;
+}
+
+
+.fridge-browse-method {
+  display: flex;
+  flex-direction: column;
+
+  height: 88px;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 9px;
+
+  border: 1px solid transparent;
+  border-radius: 11px;
+
+  background: #eaf2e7;
+  color: var(--green-dark);
+
+  font-size: 14px;
+}
+
+
+.fridge-browse-method img {
+  width: 29px;
+  height: 29px;
+
+  object-fit: contain;
+}
+
+
+.fridge-browse-method.active {
+  border-color: #bfd4c4;
+
+  box-shadow:
+    inset 0 0 0 1px
+    #bfd4c4;
+}
+
+
+/* =========================
+   Browse Card
+========================= */
+
+.browse-food-card {
+  padding: 16px 14px 24px;
+
+  border-radius: 15px;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 5px 18px
+    rgba(45, 79, 57, 0.08);
+}
+
+
+/* Search */
+
+.browse-food-search {
+  display: flex;
+
+  height: 46px;
+
+  align-items: center;
+
+  gap: 10px;
+
+  padding: 0 14px;
+
+  margin-bottom: 14px;
+
+  border-radius: 9px;
+
+  background: #edf4e9;
+}
+
+
+.browse-food-search img {
+  width: 22px;
+  height: 22px;
+
+  object-fit: contain;
+}
+
+
+.browse-food-search input {
+  width: 100%;
+
+  border: 0;
+  outline: 0;
+
+  background: transparent;
+
+  color: var(--green-dark);
+
+  font-size: 13px;
+}
+
+
+/* =========================
+   Categories
+========================= */
+
+.browse-food-categories {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+
+  gap: 3px;
+
+  margin-bottom: 28px;
+
+  padding: 3px;
+
+  border-radius: 5px;
+
+  background: #f5f7f1;
+}
+
+
+.browse-food-categories button {
+  height: 30px;
+
+  border-radius: 3px;
+
+  background: transparent;
+
+  color: var(--green-muted);
+
+  font-size: 13px;
+}
+
+
+.browse-food-categories button.active {
+  background: var(--green-muted);
+
+  color: #ffffff;
+}
+
+
+/* =========================
+   Groups
+========================= */
+
+.browse-food-group {
+  margin-bottom: 30px;
+}
+
+
+.browse-food-group:last-child {
+  margin-bottom: 0;
+}
+
+
+.browse-food-group h2 {
+  margin: 0 0 16px;
+
+  font-size: 15px;
+  font-weight: 500;
+}
+
+
+/* =========================
+   Food Grid
+========================= */
+
+.browse-food-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+
+  gap: 18px 12px;
+}
+
+
+.browse-food-item {
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+
+  gap: 7px;
+
+  padding: 0;
+
+  background: transparent;
+
+  color: var(--green-dark);
+}
+
+
+.browse-food-image-wrap {
+  position: relative;
+
+  width: 62px;
+  height: 62px;
+
+  overflow: hidden;
+
+  border-radius: 5px;
+}
+
+
+.browse-food-image-wrap > img {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  border: 0;
+  border-radius: 5px;
+
+  background: transparent;
+}
+
+
+.browse-food-name {
+  font-size: 11px;
+}
+
+
+/* Selected Feedback */
+
+.browse-selected-circle {
+  position: absolute;
+
+  right: 4px;
+  top: 4px;
+
+  display: flex;
+
+  width: 18px;
+  height: 18px;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: var(--green-primary);
+
+  color: #ffffff;
+
+  font-size: 11px;
+  font-weight: 600;
+
+  box-shadow:
+    0 2px 7px
+    rgba(45, 79, 57, 0.15);
+}
+
+
+/* =========================
+   Edit Card
+========================= */
+
+.browse-edit-card {
+  padding: 20px;
+
+  margin-bottom: 30px;
+
+  border-radius: 15px;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 5px 18px
+    rgba(45, 79, 57, 0.08);
+}
+
+
+.browse-edit-card h2 {
+  margin: 0 0 16px;
+
+  font-size: 22px;
+  font-weight: 500;
+}
+
+
+/* Tabs */
+
+.browse-edit-tabs {
+  display: flex;
+
+  gap: 8px;
+
+  margin-bottom: 18px;
+
+  overflow-x: auto;
+
+  scrollbar-width: none;
+}
+
+
+.browse-edit-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+
+.browse-edit-tabs button {
+  flex-shrink: 0;
+
+  height: 30px;
+
+  padding: 0 10px;
+
+  border: 1px solid
+    var(--green-muted);
+
+  border-radius: 3px;
+
+  background: #ffffff;
+
+  color: var(--green-muted);
+
+  font-size: 12px;
+}
+
+
+.browse-edit-tabs button.active {
+  background: var(--green-dark);
+
+  color: #ffffff;
+
+  border-color:
+    var(--green-dark);
+}
+
+
+/* =========================
+   Fields
+========================= */
+
+.browse-edit-field {
+  display: block;
+
+  margin-bottom: 20px;
+}
+
+
+.browse-edit-field:last-child {
+  margin-bottom: 0;
+}
+
+
+.browse-edit-field > span {
+  display: block;
+
+  margin-bottom: 9px;
+
+  font-size: 15px;
+}
+
+
+.browse-edit-field input {
+  width: 100%;
+  height: 52px;
+
+  box-sizing: border-box;
+
+  padding: 0 16px;
+
+  border: 0;
+  outline: 0;
+
+  border-radius: 9px;
+
+  background: #f4f4f4;
+
+  color: var(--green-dark);
+
+  font-size: 15px;
+}
+
+
+.browse-edit-field input::placeholder {
+  color: #aaaaaa;
+}
+
+
+/* =========================
+   Fixed Bottom Buttons
+========================= */
+
+.browse-bottom-actions {
+  position: fixed;
+
+  left: 50%;
+  bottom: 0;
+
+  transform: translateX(-50%);
+
+  z-index: 1000;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  gap: 18px;
+
+  width: min(
+    calc(100% - 40px),
+    440px
+  );
+
+  box-sizing: border-box;
+
+  padding: 14px 0 18px;
+
+  background: var(--bg-main);
+}
+
+
+.browse-bottom-actions button {
+  height: 52px;
+
+  border-radius: 10px;
+
+  font-size: 17px;
+}
+
+
+.browse-cancel {
+  border: 1px solid
+    var(--green-primary);
+
+  background: var(--bg-main);
+
+  color: var(--green-primary);
+}
+
+
+.browse-selected-button {
+  border: 0;
+
+  background:
+    var(--green-primary);
+
+  color: #ffffff;
+}
+
+
+.browse-selected-button:disabled {
+  opacity: 0.4;
+}

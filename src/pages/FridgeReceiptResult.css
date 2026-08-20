@@ -1,0 +1,460 @@
+.receipt-result-app {
+  width: 100%;
+  max-width: 480px;
+  min-height: 100vh;
+
+  margin: 0 auto;
+
+  background: var(--bg-main);
+
+  color: var(--green-dark);
+}
+
+
+.receipt-result-page {
+  padding: 40px 20px 120px;
+}
+
+
+/* =========================
+   Header
+========================= */
+
+.receipt-result-header {
+  margin-bottom: 22px;
+}
+
+
+.receipt-result-header h1 {
+  margin: 0 0 8px;
+
+  font-size: 28px;
+  font-weight: 600;
+
+  color: var(--green-dark);
+}
+
+
+.receipt-result-header p {
+  margin: 0;
+
+  font-size: 14px;
+
+  color: #667a69;
+}
+
+
+/* =========================
+   Methods
+========================= */
+
+.receipt-result-methods {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap: 12px;
+
+  margin-bottom: 38px;
+}
+
+
+.receipt-result-method {
+  display: flex;
+  flex-direction: column;
+
+  height: 88px;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 9px;
+
+  padding: 0;
+
+  border:
+    1px solid transparent;
+
+  border-radius: 11px;
+
+  background: #eaf2e7;
+
+  color:
+    var(--green-dark);
+
+  font-size: 14px;
+}
+
+
+.receipt-result-method img {
+  width: 29px;
+  height: 29px;
+
+  object-fit: contain;
+}
+
+
+.receipt-result-method.active {
+  border-color: #bfd4c4;
+
+  box-shadow:
+    inset 0 0 0 1px
+    #bfd4c4;
+}
+
+
+/* =========================
+   Result Card
+========================= */
+
+.receipt-result-card {
+  padding: 20px 14px 22px;
+
+  border-radius: 15px;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 5px 18px
+    rgba(45, 79, 57, 0.08);
+}
+
+
+.receipt-result-card h2 {
+  margin:
+    0 0 16px;
+
+  padding:
+    0 2px;
+
+  font-size: 20px;
+  font-weight: 500;
+}
+
+
+/* =========================
+   List
+========================= */
+
+.receipt-result-list {
+  display: flex;
+  flex-direction: column;
+
+  gap: 12px;
+}
+
+
+.receipt-result-item-wrap {
+  width: 100%;
+}
+
+
+.receipt-result-item {
+  display: flex;
+
+  min-height: 58px;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 10px;
+
+  box-sizing: border-box;
+
+  padding:
+    10px 12px;
+
+  border:
+    1px solid #cadbc9;
+
+  border-radius: 9px;
+
+  background:
+    #ffffff;
+}
+
+
+/* Info */
+
+.receipt-result-info {
+  min-width: 0;
+
+  flex: 1;
+}
+
+
+.receipt-result-info h3 {
+  margin:
+    0 0 6px;
+
+  font-size: 14px;
+  font-weight: 500;
+
+  color:
+    var(--green-dark);
+}
+
+
+.receipt-result-meta {
+  display: flex;
+
+  align-items: center;
+
+  gap: 7px;
+
+  flex-wrap: wrap;
+
+  color:
+    #4f6255;
+
+  font-size: 10px;
+}
+
+
+/* =========================
+   Actions
+========================= */
+
+.receipt-result-actions {
+  display: flex;
+
+  flex-shrink: 0;
+
+  gap: 8px;
+}
+
+
+.receipt-item-action {
+  display: flex;
+
+  width: 30px;
+  height: 30px;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  border: 0;
+  border-radius: 50%;
+}
+
+
+.receipt-item-action img {
+  width: 16px;
+  height: 16px;
+
+  object-fit: contain;
+}
+
+
+.receipt-item-action.edit {
+  background:
+    #eaf2e7;
+}
+
+
+.receipt-item-action.delete {
+  background:
+    #fdecec;
+}
+
+
+/* =========================
+   Inline Edit
+========================= */
+
+.receipt-result-edit {
+  display: grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap: 14px 12px;
+
+  padding: 16px;
+
+  margin-top: 8px;
+
+  border-radius: 9px;
+
+  background:
+    #f7f9f5;
+}
+
+
+.receipt-result-edit label {
+  display: block;
+}
+
+
+.receipt-result-edit label > span {
+  display: block;
+
+  margin-bottom: 6px;
+
+  font-size: 12px;
+}
+
+
+.receipt-result-edit input {
+  width: 100%;
+  height: 42px;
+
+  box-sizing: border-box;
+
+  padding:
+    0 11px;
+
+  border: 0;
+  outline: 0;
+
+  border-radius: 7px;
+
+  background:
+    #ffffff;
+
+  color:
+    var(--green-dark);
+
+  font-size: 13px;
+}
+
+
+.receipt-edit-actions {
+  grid-column:
+    1 / -1;
+
+  display: grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap: 10px;
+}
+
+
+.receipt-edit-actions button {
+  height: 40px;
+
+  border-radius: 7px;
+
+  font-size: 13px;
+}
+
+
+.receipt-edit-cancel {
+  border:
+    1px solid
+    var(--green-primary);
+
+  background:
+    transparent;
+
+  color:
+    var(--green-primary);
+}
+
+
+.receipt-edit-save {
+  border: 0;
+
+  background:
+    var(--green-primary);
+
+  color:
+    #ffffff;
+}
+
+
+/* =========================
+   Empty
+========================= */
+
+.receipt-result-empty {
+  padding:
+    34px 10px;
+
+  text-align: center;
+
+  color:
+    #879587;
+
+  font-size: 13px;
+}
+
+
+/* =========================
+   Fixed Bottom
+========================= */
+
+.receipt-result-footer {
+  position: fixed;
+
+  left: 50%;
+  bottom: 0;
+
+  transform:
+    translateX(-50%);
+
+  z-index: 1000;
+
+  display: grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap: 18px;
+
+  width: min(
+    calc(100% - 40px),
+    440px
+  );
+
+  box-sizing: border-box;
+
+  padding:
+    14px 0 18px;
+
+  background:
+    var(--bg-main);
+}
+
+
+.receipt-result-footer button {
+  height: 52px;
+
+  border-radius: 10px;
+
+  font-size: 17px;
+}
+
+
+.receipt-result-cancel {
+  border:
+    1px solid
+    var(--green-primary);
+
+  background:
+    var(--bg-main);
+
+  color:
+    var(--green-primary);
+}
+
+
+.receipt-result-confirm {
+  border: 0;
+
+  background:
+    var(--green-primary);
+
+  color:
+    #ffffff;
+}
+
+
+.receipt-result-confirm:disabled {
+  opacity: 0.4;
+}

@@ -1,0 +1,69 @@
+:root {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+
+  color: #2d4f39;
+  background: #f7f8f3;
+
+  --green-dark: #2d4f39;
+  --green-primary: #6faf8f;
+  --green-muted: #5f765f;
+
+  --bg-light: #e8f1e7;
+  --bg-main: #f7f8f3;
+
+  --warning: #e9a23b;
+  --danger: #d95c5c;
+  --success: #67a96b;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg-main);
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  border: none;
+  cursor: pointer;
+}
+
+/* =========================
+   iPhone Safari
+   Date input 左对齐
+========================= */
+input[type='date'] {
+  -webkit-appearance: none;
+  appearance: none;
+  text-align: left !important;
+}
+
+input[type='date']::-webkit-date-and-time-value {
+  text-align: left !important;
+}
+
+input[type='date']::-webkit-datetime-edit {
+  text-align: left !important;
+  padding: 0;
+}

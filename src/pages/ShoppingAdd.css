@@ -1,0 +1,139 @@
+.shopping-add-app {
+  width: 100%;
+  max-width: 480px;
+  min-height: 100vh;
+  margin: 0 auto;
+
+  background: var(--bg-main);
+  color: var(--green-dark);
+}
+
+.shopping-add-page {
+  padding: 82px 20px 60px;
+}
+
+
+/* Header */
+
+.shopping-add-header {
+  margin-bottom: 38px;
+}
+
+.shopping-add-header h1 {
+  margin: 0 0 10px;
+
+  font-size: 30px;
+  font-weight: 500;
+}
+
+.shopping-add-header p {
+  margin: 0;
+
+  font-size: 13px;
+  color: var(--green-dark);
+}
+
+
+/* Card */
+
+.shopping-add-card {
+  padding: 20px;
+  margin-bottom: 30px;
+
+  border-radius: 15px;
+  background: #ffffff;
+
+  box-shadow:
+    0 5px 18px
+    rgba(45, 79, 57, 0.08);
+}
+
+.shopping-add-card h2 {
+  margin: 0 0 24px;
+
+  font-size: 22px;
+  font-weight: 500;
+}
+
+
+/* Form */
+
+.shopping-form-group {
+  display: block;
+
+  margin-bottom: 22px;
+}
+
+.shopping-form-group:last-child {
+  margin-bottom: 0;
+}
+
+.shopping-form-group > span {
+  display: block;
+
+  margin-bottom: 9px;
+
+  font-size: 15px;
+}
+
+.shopping-form-group input {
+  width: 100%;
+  height: 52px;
+
+  box-sizing: border-box;
+
+  padding: 0 16px;
+
+  border: 0;
+  outline: 0;
+
+  border-radius: 9px;
+
+  background: #f4f4f4;
+
+  color: var(--green-dark);
+
+  font-size: 15px;
+}
+
+.shopping-form-group input::placeholder {
+  color: #aaaaaa;
+}
+
+
+/* Buttons */
+
+.shopping-add-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  gap: 18px;
+}
+
+.shopping-add-actions button {
+  height: 52px;
+
+  border-radius: 10px;
+
+  font-size: 17px;
+}
+
+.shopping-add-cancel {
+  border: 1px solid
+    var(--green-primary);
+
+  background: transparent;
+
+  color: var(--green-primary);
+}
+
+.shopping-add-confirm {
+  background:
+    var(--green-primary);
+
+  color: #ffffff;
+}
+
+.shopping-add-confirm:disabled {
+  opacity: 0.4;
+}

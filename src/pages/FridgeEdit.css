@@ -1,0 +1,154 @@
+.fridge-edit-app {
+  width: 100%;
+  max-width: 480px;
+  min-height: 100vh;
+  margin: 0 auto;
+
+  background: var(--bg-main);
+  color: var(--green-dark);
+}
+
+
+.fridge-edit-page {
+  padding: 82px 20px 60px;
+}
+
+
+/* Header */
+
+.fridge-edit-header {
+  margin-bottom: 38px;
+}
+
+
+.fridge-edit-header h1 {
+  margin: 0 0 10px;
+
+  font-size: 30px;
+  font-weight: 500;
+}
+
+
+.fridge-edit-header p {
+  margin: 0;
+
+  font-size: 13px;
+}
+
+
+/* Card */
+
+.fridge-edit-card {
+  padding: 20px;
+
+  margin-bottom: 30px;
+
+  border-radius: 15px;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 5px 18px
+    rgba(45, 79, 57, 0.08);
+}
+
+
+.fridge-edit-card h2 {
+  margin: 0 0 24px;
+
+  font-size: 22px;
+  font-weight: 500;
+}
+
+
+/* Fields */
+
+.fridge-edit-field {
+  display: block;
+
+  margin-bottom: 20px;
+}
+
+
+.fridge-edit-field:last-child {
+  margin-bottom: 0;
+}
+
+
+.fridge-edit-field > span {
+  display: block;
+
+  margin-bottom: 9px;
+
+  font-size: 15px;
+}
+
+
+.fridge-edit-field input {
+  width: 100%;
+  height: 52px;
+
+  box-sizing: border-box;
+
+  padding: 0 16px;
+
+  border: 0;
+  outline: 0;
+
+  border-radius: 9px;
+
+  background: #f4f4f4;
+
+  color: var(--green-dark);
+
+  font-size: 15px;
+}
+
+
+.fridge-edit-field input::placeholder {
+  color: #aaaaaa;
+}
+
+
+/* Actions */
+
+.fridge-edit-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  gap: 18px;
+}
+
+
+.fridge-edit-actions button {
+  height: 52px;
+
+  border-radius: 10px;
+
+  font-size: 17px;
+}
+
+
+.fridge-edit-cancel {
+  border: 1px solid
+    var(--green-primary);
+
+  background: transparent;
+
+  color: var(--green-primary);
+}
+
+
+.fridge-edit-confirm {
+  border: 0;
+
+  background:
+    var(--green-primary);
+
+  color: #ffffff;
+}
+
+
+.fridge-edit-confirm:disabled {
+  opacity: 0.4;
+}
