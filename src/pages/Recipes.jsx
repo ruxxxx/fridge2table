@@ -4,13 +4,10 @@ import {
 } from 'react'
 
 import recipes from '../data/recipes'
+import ingredients from '../data/ingredients'
 
 import './Recipes.css'
 
-
-/* =========================
-   Filters
-========================= */
 
 const filters = [
   '全部',
@@ -23,54 +20,9 @@ const filters = [
 ]
 
 
-/* =========================
-   Recipe Tags
-========================= */
-
-const recipeTags = {
-  R001: ['素菜', '香辣'],
-  R002: ['素菜', '清淡'],
-  R003: ['素菜', '香辣'],
-  R004: ['素菜', '清淡'],
-  R005: ['素菜', '清淡'],
-  R006: ['素菜', '香辣'],
-  R007: ['肉菜'],
-  R008: ['肉菜'],
-  R009: ['素菜', '香辣'],
-  R010: ['素菜', '清淡'],
-}
-
-
-/* =========================
+/* =====================================================
    Helpers
-========================= */
-
-function getRecipeId(
-  recipe
-) {
-
-  return (
-    recipe.recipe_id ||
-    recipe.id ||
-    ''
-  )
-}
-
-
-function getRecipeTime(
-  recipe
-) {
-
-  return (
-    Number.parseInt(
-      recipe.cooking_time ??
-      recipe.cookingTime ??
-      recipe.time,
-      10
-    ) || 0
-  )
-}
-
+===================================================== */
 
 function normalizeIngredientId(
   value
@@ -96,7 +48,6 @@ function normalizeIngredientId(
       text
     )
   ) {
-
     return text.padStart(
       3,
       '0'
@@ -108,9 +59,47 @@ function normalizeIngredientId(
 }
 
 
-/* =========================
+function getRecipeId(
+  recipe
+) {
+
+  return (
+    recipe.recipe_id ||
+    recipe.id ||
+    ''
+  )
+}
+
+
+function getRecipeTime(
+  recipe
+) {
+
+  const value =
+    recipe.cooking_time ??
+    recipe.cookingTime ??
+    recipe.time ??
+    0
+
+
+  const parsed =
+    parseInt(
+      value,
+      10
+    )
+
+
+  return Number.isFinite(
+    parsed
+  )
+    ? parsed
+    : 0
+}
+
+
+/* =====================================================
    Date
-========================= */
+===================================================== */
 
 function getDaysLeft(
   expiryDate
@@ -143,88 +132,413 @@ function getDaysLeft(
 
 
   return Math.ceil(
-    (expiry - today) /
-      (1000 * 60 * 60 * 24)
+    (
+      expiry -
+      today
+    ) /
+    (
+      1000 *
+      60 *
+      60 *
+      24
+    )
   )
 }
 
 
-/* =========================
+/* =====================================================
+   Ingredient Master Lookup
+===================================================== */
+
+function findIngredientInfo(
+  recipeIngredient
+) {
+
+  const recipeIngredientId =
+    normalizeIngredientId(
+      recipeIngredient.ingredient_id ??
+      recipeIngredient.ingredientId
+    )
+
+
+  const recipeIngredientName =
+    String(
+      recipeIngredient.name ||
+      ''
+    ).trim()
+
+
+  return (
+    ingredients.find(
+      (
+        ingredient
+      ) => {
+
+        const masterId =
+          normalizeIngredientId(
+            ingredient.ingredient_id
+          )
+
+
+        const sameId =
+          Boolean(
+            recipeIngredientId &&
+            masterId
+          ) &&
+          recipeIngredientId ===
+            masterId
+
+
+        const sameName =
+          Boolean(
+            recipeIngredientName
+          ) &&
+          ingredient.name ===
+            recipeIngredientName
+
+
+        return (
+          sameId ||
+          sameName
+        )
+      }
+    ) ||
+    null
+  )
+}
+
+
+/* =====================================================
+   Flavour / Style Tags
+
+   肉菜 / 素菜 / 海鲜
+   不在这里手写，
+   会根据 ingredients.js 自动判断。
+
+   这里只管理：
+   凉菜 / 清淡 / 香辣
+===================================================== */
+
+const styleTags = {
+
+  /* 清淡 */
+
+  R002: [
+    '清淡',
+  ],
+
+  R004: [
+    '清淡',
+  ],
+
+  R005: [
+    '清淡',
+  ],
+
+  R010: [
+    '清淡',
+  ],
+
+  R013: [
+    '清淡',
+  ],
+
+  R016: [
+    '清淡',
+  ],
+
+  R017: [
+    '清淡',
+  ],
+
+  R021: [
+    '凉菜',
+    '清淡',
+  ],
+
+  R022: [
+    '凉菜',
+    '清淡',
+  ],
+
+  R025: [
+    '清淡',
+  ],
+
+  R027: [
+    '清淡',
+  ],
+
+  R028: [
+    '清淡',
+  ],
+
+  R029: [
+    '清淡',
+  ],
+
+  R030: [
+    '清淡',
+  ],
+
+  R034: [
+    '清淡',
+  ],
+
+  R037: [
+    '凉菜',
+    '清淡',
+  ],
+
+  R039: [
+    '清淡',
+  ],
+
+  R045: [
+    '清淡',
+  ],
+
+  R047: [
+    '清淡',
+  ],
+
+  R048: [
+    '清淡',
+  ],
+
+
+  /* 香辣 */
+
+  R012: [
+    '香辣',
+  ],
+
+  R019: [
+    '香辣',
+  ],
+
+  R020: [
+    '香辣',
+  ],
+
+  R024: [
+    '香辣',
+  ],
+
+  R032: [
+    '香辣',
+  ],
+
+  R033: [
+    '香辣',
+  ],
+
+  R040: [
+    '香辣',
+  ],
+
+  R043: [
+    '香辣',
+  ],
+
+  R044: [
+    '香辣',
+  ],
+
+}
+
+
+/* =====================================================
+   Automatic Recipe Tags
+
+   Priority:
+   Seafood > Meat > Vegetarian
+===================================================== */
+
+function getRecipeTags(
+  recipe
+) {
+
+  const recipeIngredients =
+    recipe.ingredients ||
+    []
+
+
+  const ingredientCategories =
+    recipeIngredients
+      .map(
+        (
+          recipeIngredient
+        ) => {
+
+          const info =
+            findIngredientInfo(
+              recipeIngredient
+            )
+
+
+          return (
+            info?.category ||
+            ''
+          )
+        }
+      )
+      .filter(
+        Boolean
+      )
+
+
+  const hasSeafood =
+    ingredientCategories.includes(
+      '海鲜'
+    )
+
+
+  const hasMeat =
+    ingredientCategories.includes(
+      '肉类'
+    )
+
+
+  let mainTag =
+    '素菜'
+
+
+  if (
+    hasSeafood
+  ) {
+
+    mainTag =
+      '海鲜'
+
+  } else if (
+    hasMeat
+  ) {
+
+    mainTag =
+      '肉菜'
+  }
+
+
+  const recipeId =
+    getRecipeId(
+      recipe
+    )
+
+
+  const extraTags =
+    styleTags[
+      recipeId
+    ] ||
+    []
+
+
+  return [
+    ...new Set([
+      mainTag,
+      ...extraTags,
+    ]),
+  ]
+}
+
+
+/* =====================================================
+   Recipe / Fridge Ingredient Match
+===================================================== */
+
+function isSameIngredient(
+  recipeIngredient,
+  fridgeItem
+) {
+
+  const recipeIngredientId =
+    normalizeIngredientId(
+      recipeIngredient.ingredient_id ??
+      recipeIngredient.ingredientId
+    )
+
+
+  const fridgeIngredientId =
+    normalizeIngredientId(
+      fridgeItem.ingredientId ??
+      fridgeItem.ingredient_id
+    )
+
+
+  const sameId =
+    Boolean(
+      recipeIngredientId &&
+      fridgeIngredientId
+    ) &&
+    recipeIngredientId ===
+      fridgeIngredientId
+
+
+  /*
+    Name fallback only for old
+    localStorage items without ID.
+  */
+
+  const sameName =
+    !fridgeIngredientId &&
+    fridgeItem.name ===
+      recipeIngredient.name
+
+
+  return (
+    sameId ||
+    sameName
+  )
+}
+
+
+/* =====================================================
    Recipe Match
-========================= */
+===================================================== */
 
 function getRecipeMatch(
   recipe,
   fridgeItems
 ) {
 
-  let missing = 0
-  let expiring = 0
+  let missing =
+    0
+
+  let expiring =
+    0
 
 
-  recipe.ingredients.forEach(
-    (ingredient) => {
+  const recipeIngredients =
+    recipe.ingredients ||
+    []
 
-      const recipeIngredientId =
-        normalizeIngredientId(
-          ingredient.ingredient_id ??
-          ingredient.ingredientId
-        )
 
+  recipeIngredients.forEach(
+    (
+      ingredient
+    ) => {
 
       const availableItems =
         fridgeItems.filter(
-          (item) => {
+          (
+            item
+          ) => {
 
-            const fridgeIngredientId =
-              normalizeIngredientId(
-                item.ingredientId ??
-                item.ingredient_id
-              )
-
-
-            const sameId =
-              Boolean(
-                recipeIngredientId &&
-                fridgeIngredientId
+            return (
+              isSameIngredient(
+                ingredient,
+                item
               ) &&
-              recipeIngredientId ===
-                fridgeIngredientId
-
-
-            /*
-              兼容旧 localStorage
-            */
-
-            const sameName =
-              !fridgeIngredientId &&
-              String(
-                item.name || ''
-              ).trim() ===
-                String(
-                  ingredient.name || ''
-                ).trim()
-
-
-            const notExpired =
               getDaysLeft(
                 item.expiryDate
               ) >= 0
-
-
-            return (
-              (
-                sameId ||
-                sameName
-              ) &&
-              notExpired
             )
           }
         )
 
 
       /* =====================
-         Missing
+         No Stock
       ===================== */
 
       if (
@@ -232,80 +546,23 @@ function getRecipeMatch(
         0
       ) {
 
-        missing += 1
+        missing +=
+          1
 
         return
       }
 
 
       /* =====================
-         Quantity
-
-         如果数量为空：
-         只要有这个食材就算拥有。
-
-         全部库存都有数量时：
-         才判断数量够不够。
-      ===================== */
-
-      const hasUnknownQuantity =
-        availableItems.some(
-          (item) =>
-            item.quantity ===
-              null ||
-            item.quantity ===
-              undefined ||
-            item.quantity ===
-              ''
-        )
-
-
-      if (
-        !hasUnknownQuantity
-      ) {
-
-        const availableQuantity =
-          availableItems.reduce(
-            (
-              total,
-              item
-            ) =>
-              total +
-              Number(
-                item.quantity
-              ),
-            0
-          )
-
-
-        const requiredQuantity =
-          Number(
-            ingredient.quantity
-          )
-
-
-        if (
-          Number.isFinite(
-            requiredQuantity
-          ) &&
-          availableQuantity <
-            requiredQuantity
-        ) {
-
-          missing += 1
-        }
-      }
-
-
-      /* =====================
          Expiring
-
-         0 - 4 天内过期
+         0–4 days
       ===================== */
 
       const hasExpiringItem =
         availableItems.some(
-          (item) => {
+          (
+            item
+          ) => {
 
             const daysLeft =
               getDaysLeft(
@@ -325,7 +582,89 @@ function getRecipeMatch(
         hasExpiringItem
       ) {
 
-        expiring += 1
+        expiring +=
+          1
+      }
+
+
+      /* =====================
+         Unknown Quantity
+
+         Quantity blank means:
+         ingredient exists.
+
+         Do not mark missing.
+      ===================== */
+
+      const hasUnknownQuantity =
+        availableItems.some(
+          (
+            item
+          ) => {
+
+            return (
+              item.quantity ===
+                null ||
+              item.quantity ===
+                undefined ||
+              item.quantity ===
+                '' ||
+              !Number.isFinite(
+                Number(
+                  item.quantity
+                )
+              )
+            )
+          }
+        )
+
+
+      if (
+        hasUnknownQuantity
+      ) {
+
+        return
+      }
+
+
+      /* =====================
+         Known Quantity
+      ===================== */
+
+      const availableQuantity =
+        availableItems.reduce(
+          (
+            total,
+            item
+          ) => {
+
+            return (
+              total +
+              Number(
+                item.quantity
+              )
+            )
+          },
+          0
+        )
+
+
+      const requiredQuantity =
+        Number(
+          ingredient.quantity
+        )
+
+
+      if (
+        Number.isFinite(
+          requiredQuantity
+        ) &&
+        availableQuantity <
+          requiredQuantity
+      ) {
+
+        missing +=
+          1
       }
 
     }
@@ -339,18 +678,14 @@ function getRecipeMatch(
 }
 
 
-/* =========================
+/* =====================================================
    Recipes
-========================= */
+===================================================== */
 
 function Recipes({
-
   fridgeItems = [],
-
   onOpenRecipe,
-
 }) {
-
 
   const [
     recipeList,
@@ -388,16 +723,18 @@ function Recipes({
     )
 
 
-  /* =========================
-     Add Match Data
-  ========================= */
+  /* =====================================================
+     Add Display Data
+  ===================================================== */
 
   const recipesWithDisplayData =
     useMemo(
       () => {
 
         return recipeList.map(
-          (recipe) => {
+          (
+            recipe
+          ) => {
 
             const match =
               getRecipeMatch(
@@ -406,28 +743,30 @@ function Recipes({
               )
 
 
-            const recipeId =
-              getRecipeId(
-                recipe
-              )
-
-
             return {
+
               ...recipe,
 
               tags:
-                recipeTags[
-                  recipeId
-                ] || [],
+                getRecipeTags(
+                  recipe
+                ),
 
               missing:
                 match.missing,
 
               expiring:
                 match.expiring,
+
+              cookingTime:
+                getRecipeTime(
+                  recipe
+                ),
+
             }
           }
         )
+
       },
       [
         recipeList,
@@ -436,64 +775,93 @@ function Recipes({
     )
 
 
-  /* =========================
+  /* =====================================================
      Search / Filter / Sort
-  ========================= */
+  ===================================================== */
 
   const filteredRecipes =
     useMemo(
       () => {
 
+        const keyword =
+          search
+            .trim()
+            .toLowerCase()
+
+
         const result =
           recipesWithDisplayData.filter(
-            (recipe) => {
+            (
+              recipe
+            ) => {
 
-              const keyword =
-                search.trim()
-
-
-              /* Search */
+              /* =====================
+                 Search
+              ===================== */
 
               const matchesSearch =
-                keyword === '' ||
-
-                recipe.name.includes(
-                  keyword
-                ) ||
-
-                recipe.ingredients.some(
-                  (ingredient) =>
-                    ingredient.name.includes(
-                      keyword
+                keyword ===
+                  '' ||
+                String(
+                  recipe.name ||
+                  ''
+                )
+                  .toLowerCase()
+                  .includes(
+                    keyword
+                  ) ||
+                (
+                  recipe.ingredients ||
+                  []
+                ).some(
+                  (
+                    ingredient
+                  ) =>
+                    String(
+                      ingredient.name ||
+                      ''
                     )
+                      .toLowerCase()
+                      .includes(
+                        keyword
+                      )
                 ) ||
-
                 recipe.tags.some(
-                  (tag) =>
-                    tag.includes(
-                      keyword
+                  (
+                    tag
+                  ) =>
+                    String(
+                      tag
                     )
+                      .toLowerCase()
+                      .includes(
+                        keyword
+                      )
                 )
 
 
-              /* Filter */
+              /* =====================
+                 Filter
+              ===================== */
 
               const matchesFilter =
                 activeFilter ===
                   '全部' ||
-
                 recipe.tags.includes(
                   activeFilter
                 )
 
 
-              /* Recommend / Favorite */
+              /* =====================
+                 Recommend / Favourite
+              ===================== */
 
               const matchesTab =
                 activeTab ===
                   '推荐' ||
-
-                recipe.favorite
+                Boolean(
+                  recipe.favorite
+                )
 
 
               return (
@@ -505,13 +873,13 @@ function Recipes({
           )
 
 
-        /* =====================
-           Recommendation Sort
+        /* =================================================
+           Recommendation Priority
 
-           1. 临期食材越多越前
-           2. 缺少食材越少越前
-           3. 烹饪时间越短越前
-        ===================== */
+           1. More expiring ingredients
+           2. Fewer missing ingredients
+           3. Shorter cooking time
+        ================================================= */
 
         if (
           activeTab ===
@@ -523,11 +891,6 @@ function Recipes({
               a,
               b
             ) => {
-
-
-              /* =====================
-                 1. Expiring First
-              ===================== */
 
               if (
                 a.expiring !==
@@ -541,10 +904,6 @@ function Recipes({
               }
 
 
-              /* =====================
-                 2. Missing Fewer
-              ===================== */
-
               if (
                 a.missing !==
                 b.missing
@@ -557,17 +916,9 @@ function Recipes({
               }
 
 
-              /* =====================
-                 3. Faster Recipe
-              ===================== */
-
               return (
-                getRecipeTime(
-                  a
-                ) -
-                getRecipeTime(
-                  b
-                )
+                a.cookingTime -
+                b.cookingTime
               )
             }
           )
@@ -575,6 +926,7 @@ function Recipes({
 
 
         return result
+
       },
       [
         recipesWithDisplayData,
@@ -585,13 +937,13 @@ function Recipes({
     )
 
 
-  /* =========================
+  /* =====================================================
      Favorite
-  ========================= */
+  ===================================================== */
 
   const toggleFavorite =
     (
-      id
+      recipeId
     ) => {
 
       setRecipeList(
@@ -600,34 +952,42 @@ function Recipes({
         ) =>
 
           currentRecipes.map(
-            (recipe) => {
+            (
+              recipe
+            ) => {
 
-              const recipeId =
+              const currentId =
                 getRecipeId(
                   recipe
                 )
 
 
-              return (
-                recipeId === id
-                  ? {
-                      ...recipe,
+              if (
+                currentId !==
+                recipeId
+              ) {
 
-                      favorite:
-                        !recipe.favorite,
-                    }
+                return recipe
+              }
 
-                  : recipe
-              )
+
+              return {
+
+                ...recipe,
+
+                favorite:
+                  !recipe.favorite,
+
+              }
             }
           )
       )
     }
 
 
-  /* =========================
+  /* =====================================================
      Render
-  ========================= */
+  ===================================================== */
 
   return (
 
@@ -636,7 +996,9 @@ function Recipes({
       <main className="recipes-page">
 
 
-        {/* Title */}
+        {/* =====================
+            Title
+        ===================== */}
 
         <header className="recipes-header">
 
@@ -647,7 +1009,9 @@ function Recipes({
         </header>
 
 
-        {/* Search */}
+        {/* =====================
+            Search
+        ===================== */}
 
         <div className="recipes-search">
 
@@ -656,46 +1020,41 @@ function Recipes({
             alt=""
           />
 
-
           <input
-
             type="text"
-
             value={
               search
             }
-
             placeholder="搜索菜名或者食材"
 
             onChange={
               (
                 event
               ) =>
-
                 setSearch(
-                  event.target
-                    .value
+                  event.target.value
                 )
             }
-
           />
 
         </div>
 
 
-        {/* Recommend / Favourite */}
+        {/* =====================
+            Recommend / Favourite
+        ===================== */}
 
         <div className="recipes-main-tabs">
 
-
           <button
-
             type="button"
 
             className={
               activeTab ===
               '推荐'
+
                 ? 'recipes-main-tab active'
+
                 : 'recipes-main-tab'
             }
 
@@ -705,20 +1064,20 @@ function Recipes({
                   '推荐'
                 )
             }
-
           >
             推荐
           </button>
 
 
           <button
-
             type="button"
 
             className={
               activeTab ===
               '收藏'
+
                 ? 'recipes-main-tab active'
+
                 : 'recipes-main-tab'
             }
 
@@ -728,7 +1087,6 @@ function Recipes({
                   '收藏'
                 )
             }
-
           >
             收藏
           </button>
@@ -736,48 +1094,54 @@ function Recipes({
         </div>
 
 
-        {/* Filters */}
+        {/* =====================
+            Filters
+        ===================== */}
 
         <div className="recipe-filters">
 
-          {filters.map(
-            (filter) => (
+          {
+            filters.map(
+              (
+                filter
+              ) => (
 
-              <button
+                <button
+                  type="button"
 
-                key={
-                  filter
-                }
+                  key={
+                    filter
+                  }
 
-                type="button"
+                  className={
+                    activeFilter ===
+                    filter
 
-                className={
-                  activeFilter ===
-                  filter
-                    ? 'recipe-filter active'
-                    : 'recipe-filter'
-                }
+                      ? 'recipe-filter active'
 
-                onClick={
-                  () =>
-                    setActiveFilter(
-                      filter
-                    )
-                }
+                      : 'recipe-filter'
+                  }
 
-              >
+                  onClick={
+                    () =>
+                      setActiveFilter(
+                        filter
+                      )
+                  }
+                >
+                  {filter}
+                </button>
 
-                {filter}
-
-              </button>
-
+              )
             )
-          )}
+          }
 
         </div>
 
 
-        {/* Intro */}
+        {/* =====================
+            Intro
+        ===================== */}
 
         <section className="recipes-intro">
 
@@ -786,7 +1150,9 @@ function Recipes({
             {
               activeTab ===
               '推荐'
+
                 ? '菜谱推荐'
+
                 : '我的收藏'
             }
 
@@ -807,240 +1173,252 @@ function Recipes({
         </section>
 
 
-        {/* Recipe List */}
+        {/* =====================
+            Recipe List
+        ===================== */}
 
         <section className="recipes-list">
 
           {
             filteredRecipes.length >
-            0 ? (
+            0
 
-              filteredRecipes.map(
-                (recipe) => {
+              ? (
 
-                  const recipeId =
-                    getRecipeId(
-                      recipe
-                    )
+                filteredRecipes.map(
+                  (
+                    recipe
+                  ) => {
 
-
-                  return (
-
-                    <article
-
-                      className="recipes-card"
-
-                      key={
-                        recipeId
-                      }
-
-                      onClick={
-                        () =>
-                          onOpenRecipe(
-                            recipe
-                          )
-                      }
-
-                    >
+                    const recipeId =
+                      getRecipeId(
+                        recipe
+                      )
 
 
-                      {/* Favorite */}
+                    return (
 
-                      <button
+                      <article
+                        className="recipes-card"
 
-                        className="favorite-button"
-
-                        type="button"
+                        key={
+                          recipeId
+                        }
 
                         onClick={
-                          (
-                            event
-                          ) => {
-
-                            event
-                              .stopPropagation()
-
-
-                            toggleFavorite(
-                              recipeId
+                          () =>
+                            onOpenRecipe?.(
+                              recipe
                             )
-                          }
                         }
-
-                        aria-label={
-                          recipe.favorite
-                            ? '取消收藏'
-                            : '收藏菜谱'
-                        }
-
                       >
 
+
+                        {/* =====================
+                            Favorite
+                        ===================== */}
+
+                        <button
+                          type="button"
+
+                          className="favorite-button"
+
+                          onClick={
+                            (
+                              event
+                            ) => {
+
+                              event.stopPropagation()
+
+                              toggleFavorite(
+                                recipeId
+                              )
+                            }
+                          }
+
+                          aria-label={
+                            recipe.favorite
+
+                              ? '取消收藏'
+
+                              : '收藏菜谱'
+                          }
+                        >
+
+                          <img
+                            src={
+                              recipe.favorite
+
+                                ? '/images/icons/icon-start-2.png'
+
+                                : '/images/icons/icon-start-1.png'
+                            }
+                            alt=""
+                          />
+
+                        </button>
+
+
+                        {/* =====================
+                            Image
+                        ===================== */}
+
                         <img
+                          className="recipes-card-image"
 
                           src={
-                            recipe.favorite
-                              ? '/images/icons/icon-start-2.png'
-                              : '/images/icons/icon-start-1.png'
+                            recipe.image
                           }
 
-                          alt=""
-
+                          alt={
+                            recipe.name
+                          }
                         />
 
-                      </button>
+
+                        {/* =====================
+                            Content
+                        ===================== */}
+
+                        <div className="recipes-card-content">
+
+                          <h3>
+                            {recipe.name}
+                          </h3>
 
 
-                      {/* Image */}
-
-                      <img
-
-                        className="recipes-card-image"
-
-                        src={
-                          recipe.image
-                        }
-
-                        alt={
-                          recipe.name
-                        }
-
-                      />
+                          <div className="recipes-tags">
 
 
-                      {/* Content */}
+                            {/* Match */}
 
-                      <div className="recipes-card-content">
+                            {
+                              recipe.missing ===
+                              0
 
+                                ? (
 
-                        <h3>
-                          {recipe.name}
-                        </h3>
+                                  <span className="match-tag complete">
 
+                                    <img
+                                      src="/images/icons/icon-check-mark.png"
+                                      alt=""
+                                    />
 
-                        <div className="recipes-tags">
+                                    食材齐全
 
+                                  </span>
 
-                          {
-                            recipe.missing ===
-                            0 ? (
+                                )
 
-                              <span className="match-tag complete">
+                                : (
 
-                                <img
-                                  src="/images/icons/icon-check-mark.png"
-                                  alt=""
-                                />
+                                  <span className="match-tag missing">
 
-                                食材齐全
+                                    <img
+                                      src="/images/icons/icon-warning.png"
+                                      alt=""
+                                    />
 
-                              </span>
+                                    缺 {recipe.missing} 样
 
-                            ) : (
+                                  </span>
 
-                              <span className="match-tag missing">
-
-                                <img
-                                  src="/images/icons/icon-warning.png"
-                                  alt=""
-                                />
-
-                                缺 {recipe.missing} 样
-
-                              </span>
-
-                            )
-                          }
+                                )
+                            }
 
 
-                          {
-                            recipe.tags.map(
-                              (tag) => (
+                            {/* Recipe Tags */}
 
-                                <span
+                            {
+                              recipe.tags.map(
+                                (
+                                  tag
+                                ) => (
 
-                                  className="type-tag"
+                                  <span
+                                    className="type-tag"
 
-                                  key={
-                                    tag
-                                  }
+                                    key={
+                                      tag
+                                    }
+                                  >
+                                    {tag}
+                                  </span>
 
-                                >
-                                  {tag}
-                                </span>
-
+                                )
                               )
-                            )
-                          }
+                            }
+
+                          </div>
+
+
+                          {/* =====================
+                              Meta
+                          ===================== */}
+
+                          <div className="recipes-meta">
+
+                            <span>
+
+                              {
+                                recipe.cookingTime
+                              } 分钟
+
+                            </span>
+
+                            <span>
+                              ·
+                            </span>
+
+                            <span>
+                              {recipe.difficulty}
+                            </span>
+
+                            <span>
+                              ·
+                            </span>
+
+                            <span>
+
+                              {
+                                recipe.expiring
+                              } 种临期食材
+
+                            </span>
+
+                          </div>
 
                         </div>
 
+                      </article>
 
-                        <div className="recipes-meta">
+                    )
+                  }
+                )
 
-                          <span>
-
-                            {
-                              getRecipeTime(
-                                recipe
-                              )
-                            } 分钟
-
-                          </span>
-
-
-                          <span>
-                            ·
-                          </span>
-
-
-                          <span>
-
-                            {recipe.difficulty}
-
-                          </span>
-
-
-                          <span>
-                            ·
-                          </span>
-
-
-                          <span>
-
-                            {
-                              recipe.expiring
-                            } 种临期食材
-
-                          </span>
-
-                        </div>
-
-                      </div>
-
-                    </article>
-
-                  )
-                }
               )
 
-            ) : (
+              : (
 
-              <div className="recipes-empty">
+                <div className="recipes-empty">
 
-                <p>
+                  <p>
 
-                  {
-                    activeTab ===
-                    '收藏'
-                      ? '还没有收藏的菜谱'
-                      : '没有找到符合条件的菜谱'
-                  }
+                    {
+                      activeTab ===
+                      '收藏'
 
-                </p>
+                        ? '还没有收藏的菜谱'
 
-              </div>
+                        : '没有找到符合条件的菜谱'
+                    }
 
-            )
+                  </p>
+
+                </div>
+
+              )
           }
 
         </section>
@@ -1048,6 +1426,7 @@ function Recipes({
       </main>
 
     </div>
+
   )
 }
 
